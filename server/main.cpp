@@ -72,6 +72,7 @@ createTransportFromConfig (boost::property_tree::ptree &config)
   return transport;
 }
 
+#ifdef G_OS_UNIX
 static void
 signal_handler (int signo)
 {
@@ -96,6 +97,7 @@ signal_handler (int signo)
     break;
   }
 }
+#endif
 
 static void
 kms_init_dependencies (int *argc, char ***argv)
