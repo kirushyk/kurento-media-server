@@ -14,7 +14,6 @@
  */
 
 #include "WebSocketRegistrar.hpp"
-#include <mutex>
 #include <json/json.h>
 #include <gst/gst.h>
 

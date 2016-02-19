@@ -22,6 +22,7 @@
 
 #include <websocketpp/client.hpp>
 #include <websocketpp/config/asio.hpp>
+#include <mutex>
 #include <thread>
 #include <atomic>
 
