@@ -22,7 +22,9 @@
 #include <KurentoException.hpp>
 #include <MediaSet.hpp>
 
+#ifdef __linux__
 #include <sys/resource.h>
+#endif
 
 #define GST_CAT_DEFAULT kurento_resource_manager
 GST_DEBUG_CATEGORY_STATIC (GST_CAT_DEFAULT);
@@ -65,10 +67,14 @@ static int
 getMaxThreads ()
 {
   if (maxThreads == 0) {
+#ifdef __linux__
     struct rlimit limits;
     getrlimit (RLIMIT_NPROC, &limits);
 
     maxThreads = limits.rlim_cur;
+#else
+    maxThreads = 2;
+#endif
   }
 
   return maxThreads;
@@ -90,10 +96,14 @@ static int
 getMaxOpenFiles ()
 {
   if (maxOpenFiles == 0) {
+#ifdef __linux__
     struct rlimit limits;
     getrlimit (RLIMIT_NOFILE, &limits);
 
     maxOpenFiles = limits.rlim_cur;
+#else
+    maxOpenFiles = 64;
+#endif
   }
 
   return maxOpenFiles;
@@ -103,6 +113,7 @@ static int
 getNumberOfOpenFiles ()
 {
   int openFiles = 0;
+#ifdef __linux__
   DIR *d;
   struct dirent *dir;
 
@@ -113,6 +124,7 @@ getNumberOfOpenFiles ()
   }
 
   closedir (d);
+#endif
 
   return openFiles;
 }
