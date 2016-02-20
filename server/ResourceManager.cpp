@@ -158,7 +158,11 @@ void killServerOnLowResources (float limit_percent)
     } catch (KurentoException &e) {
       if (e.getCode() == NOT_ENOUGH_RESOURCES) {
         GST_ERROR ("Resources over the limit, server will be killed");
+#ifdef __linux__
         kill ( getpid(), SIGTERM );
+#else
+        exit (0);
+#endif
       }
     }
   });
