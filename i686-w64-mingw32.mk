@@ -15,7 +15,11 @@ CFLAGS=-DKURENTO_MODULES_DIR="\".\"" -DBOOST_LOG_USE_NATIVE_SYSLOG -DWIN32_LEAN_
 -Iwin32/commons \
 -Iwin32/commons/sdpagent
 
-LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib -lgstreamer-1.0 -lglibmm-2.4 -lgobject-2.0 -lglib-2.0 -lintl -lsigc-2.0 -lboost_system-mt -lboost_log-mt -lboost_program_options-mt
+LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib -lgstreamer-1.0 -lglibmm-2.4 -lgobject-2.0 -lglib-2.0 -lintl -lsigc-2.0 \
+-lboost_system-mt \
+-lboost_log-mt \
+-lboost_program_options-mt \
+-lboost_filesystem-mt
 
 SRC=./server/CacheEntry.cpp \
 ./server/transport/TransportFactory.cpp \
