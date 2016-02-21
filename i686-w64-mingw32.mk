@@ -73,7 +73,70 @@ SRC=./server/CacheEntry.cpp \
 ../kms-core/src/server/implementation/ModuleManager.cpp \
 ../kms-core/src/server/implementation/WorkerPool.cpp \
 ../kms-core/src/server/implementation/UUIDGenerator.cpp \
-../kms-core/src/server/implementation/EventHandler.cpp
+../kms-core/src/server/implementation/EventHandler.cpp \
+\
+../kms-core/src/gst-plugins/kmsdummysink.c \
+../kms-core/src/gst-plugins/kmsagnosticbin3.c \
+../kms-core/src/gst-plugins/kmsagnosticbin.c \
+../kms-core/src/gst-plugins/kmsdummyduplex.c \
+../kms-core/src/gst-plugins/vp8parse/vp8parse.c \
+../kms-core/src/gst-plugins/vp8parse/kmsvp8parse.c \
+../kms-core/src/gst-plugins/kmsfilterelement.c \
+../kms-core/src/gst-plugins/kmsdummyuri.c \
+../kms-core/src/gst-plugins/kmsdummysrc.c \
+../kms-core/src/gst-plugins/kmsbitratefilter.c \
+../kms-core/src/gst-plugins/kmsdummyrtp.c \
+../kms-core/src/gst-plugins/kmsaudiomixer.c \
+../kms-core/src/gst-plugins/kmsaudiomixerbin.c \
+../kms-core/src/gst-plugins/kmsbufferinjector.c \
+../kms-core/src/gst-plugins/kmsdummysdp.c \
+../kms-core/src/gst-plugins/kmscore.c \
+../kms-core/src/gst-plugins/kmspassthrough.c \
+../kms-core/src/gst-plugins/commons/kmsrtcp.c \
+../kms-core/src/gst-plugins/commons/kmshubport.c \
+../kms-core/src/gst-plugins/commons/kmsbasesdpendpoint.c \
+../kms-core/src/gst-plugins/commons/kmsenctreebin.c \
+../kms-core/src/gst-plugins/commons/kmsbasertpsession.c \
+../kms-core/src/gst-plugins/commons/kmsrecordingprofile.c \
+../kms-core/src/gst-plugins/commons/kmsloop.c \
+../kms-core/src/gst-plugins/commons/kmsuriendpoint.c \
+../kms-core/src/gst-plugins/commons/kmsbufferlacentymeta.c \
+../kms-core/src/gst-plugins/commons/kmstreebin.c \
+../kms-core/src/gst-plugins/commons/kmsbasehub.c \
+../kms-core/src/gst-plugins/commons/kmsremb.c \
+../kms-core/src/gst-plugins/commons/kmsutils.c \
+../kms-core/src/gst-plugins/commons/kmssdpsession.c \
+../kms-core/src/gst-plugins/commons/kmsstats.c \
+../kms-core/src/gst-plugins/commons/kmsirtpconnection.c \
+../kms-core/src/gst-plugins/commons/kmsparsetreebin.c \
+../kms-core/src/gst-plugins/commons/kmsdectreebin.c \
+../kms-core/src/gst-plugins/commons/kmselement.c \
+../kms-core/src/gst-plugins/commons/kmsrefstruct.c \
+../kms-core/src/gst-plugins/commons/sdp_utils.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpmidext.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpgroupmanager.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpmediahandler.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpagent.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpcontext.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmsisdpmediaextension.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpagentcommon.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpbundlegroup.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdprtpsavpmediahandler.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdprtpmediahandler.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpbasegroup.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdprtpsavpfmediahandler.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmsisdpsessionextension.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdprtpavpfmediahandler.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdppayloadmanager.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpsctpmediahandler.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdprtpavpmediahandler.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdpsdesext.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmsisdppayloadmanager.c \
+../kms-core/src/gst-plugins/commons/sdpagent/kmssdprejectmediahandler.c \
+../kms-core/src/gst-plugins/commons/kmsirtpsessionmanager.c \
+../kms-core/src/gst-plugins/commons/kmslist.c \
+../kms-core/src/gst-plugins/commons/kmsserializablemeta.c \
+../kms-core/src/gst-plugins/commons/kmsbasertpendpoint.c
 
 all:
 	mkdir -p $(TARGET_DIR)
