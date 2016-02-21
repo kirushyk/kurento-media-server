@@ -2,9 +2,36 @@ CXX=i686-w64-mingw32-g++
 TARGET_DIR=win32
 TARGET=$(TARGET_DIR)/kurento.exe
 
-CXXFLAGS=--std=gnu++17
+CXXFLAGS=--std=gnu++17 -fpermissive
 
-CFLAGS=-DKURENTO_MODULES_DIR="\".\"" -DBOOST_LOG_USE_NATIVE_SYSLOG -DWIN32_LEAN_AND_MEAN=1 -Dushort="unsigned short" -Duint="unsigned" -mms-bitfields -I. -I/usr/i686-w64-mingw32/sys-root/mingw/include/gstreamer-1.0 -I/usr/i686-w64-mingw32/sys-root/mingw/lib/gstreamer-1.0/include -I/usr/i686-w64-mingw32/sys-root/mingw/include/glibmm-2.4 -I/usr/i686-w64-mingw32/sys-root/mingw/lib/glibmm-2.4/include -I/usr/i686-w64-mingw32/sys-root/mingw/include/glib-2.0 -I/usr/i686-w64-mingw32/sys-root/mingw/lib/glib-2.0/include -I/usr/i686-w64-mingw32/sys-root/mingw/include/sigc++-2.0 -I/usr/i686-w64-mingw32/sys-root/mingw/lib/sigc++-2.0/include -I../kms-jsonrpc/src/ -I../kms-jsonrpc/src/jsonrpc/ -I../jsoncpp/include/ -I../kms-core/src/server/interface/ -I../kms-core/src/server/implementation/ -I../kms-core/src/server/implementation/objects/ -I../kurento-media-server/server/transport/ -I../libevent/include/ -I./win32/ -I./server/ -I./server/transport/websocket/ \
+CFLAGS=\
+-DKURENTO_MODULES_DIR="\".\"" \
+-DBOOST_LOG_USE_NATIVE_SYSLOG \
+-DWIN32_LEAN_AND_MEAN=1 \
+-Dushort="unsigned short" \
+-Duint="unsigned" \
+-mms-bitfields \
+\
+-I. \
+-I/usr/i686-w64-mingw32/sys-root/mingw/include/gstreamer-1.0 \
+-I/usr/i686-w64-mingw32/sys-root/mingw/lib/gstreamer-1.0/include \
+-I/usr/i686-w64-mingw32/sys-root/mingw/include/glibmm-2.4 \
+-I/usr/i686-w64-mingw32/sys-root/mingw/lib/glibmm-2.4/include \
+-I/usr/i686-w64-mingw32/sys-root/mingw/include/glib-2.0 \
+-I/usr/i686-w64-mingw32/sys-root/mingw/lib/glib-2.0/include \
+-I/usr/i686-w64-mingw32/sys-root/mingw/include/sigc++-2.0 \
+-I/usr/i686-w64-mingw32/sys-root/mingw/lib/sigc++-2.0/include \
+-I../kms-jsonrpc/src/ \
+-I../kms-jsonrpc/src/jsonrpc/ \
+-I../jsoncpp/include/ \
+-I../kms-core/src/server/interface/ \
+-I../kms-core/src/server/implementation/ \
+-I../kms-core/src/server/implementation/objects/ \
+-I../kurento-media-server/server/transport/ \
+-I../libevent/include/ \
+-I./win32/ \
+-I./server/ \
+-I./server/transport/websocket/ \
 -Iwin32/ \
 -Iwin32/modules \
 -Iwin32/modules/core \
