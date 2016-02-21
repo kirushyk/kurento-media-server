@@ -1,10 +1,12 @@
-CXX=i686-w64-mingw32-g++
-TARGET_DIR=win32
-TARGET=$(TARGET_DIR)/kurento.exe
+CXX = i686-w64-mingw32-g++
+CC = i686-w64-mingw32-gcc
+LD = i686-w64-mingw32-ld
+TARGET_DIR = build
+TARGET = kurento.exe
 
-CXXFLAGS=--std=gnu++17 -fpermissive
+CXXFLAGS = --std=gnu++17 -fpermissive
 
-CFLAGS=\
+CFLAGS = \
 -DKURENTO_MODULES_DIR="\".\"" \
 -DBOOST_LOG_USE_NATIVE_SYSLOG \
 -DWIN32_LEAN_AND_MEAN=1 \
@@ -32,17 +34,17 @@ CFLAGS=\
 -I./win32/ \
 -I./server/ \
 -I./server/transport/websocket/ \
--Iwin32/ \
--Iwin32/modules \
--Iwin32/modules/core \
--Iwin32/modules/elements \
--Iwin32/modules/filters \
--Iwin32/jsonrpc \
--Iwin32/webrtcendpoint \
--Iwin32/commons \
--Iwin32/commons/sdpagent
+-I./win32/ \
+-I./win32/modules \
+-I./win32/modules/core \
+-I./win32/modules/elements \
+-I./win32/modules/filters \
+-I./win32/jsonrpc \
+-I./win32/webrtcendpoint \
+-I./win32/commons \
+-I./win32/commons/sdpagent
 
-LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
+LIBS = -L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lgstreamer-1.0 \
 -lgstsdp-1.0.dll \
 -lglibmm-2.4 \
@@ -55,7 +57,8 @@ LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lboost_program_options-mt \
 -lboost_filesystem-mt
 
-SRC=./server/CacheEntry.cpp \
+CPP_SRC = \
+./server/CacheEntry.cpp \
 ./server/transport/TransportFactory.cpp \
 ./server/transport/websocket/WebSocketTransport.cpp \
 ./server/transport/websocket/WebSocketRegistrar.cpp \
@@ -100,8 +103,9 @@ SRC=./server/CacheEntry.cpp \
 ../kms-core/src/server/implementation/ModuleManager.cpp \
 ../kms-core/src/server/implementation/WorkerPool.cpp \
 ../kms-core/src/server/implementation/UUIDGenerator.cpp \
-../kms-core/src/server/implementation/EventHandler.cpp \
-\
+../kms-core/src/server/implementation/EventHandler.cpp
+
+C_SRC = \
 ../kms-core/src/gst-plugins/kmsdummysink.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin3.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin.c \
@@ -167,5 +171,5 @@ SRC=./server/CacheEntry.cpp \
 
 all:
 	mkdir -p $(TARGET_DIR)
-	$(CXX) -o $(TARGET_DIR)/kurento.exe $(CFLAGS) $(CXXFLAGS) $(SRC) $(LIBS)
+	$(CXX) -o $(TARGET_DIR)/$(TARGET) $(CFLAGS) $(CXXFLAGS) $(SRC) $(LIBS)
 
