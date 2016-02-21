@@ -31,7 +31,30 @@ SRC=./server/CacheEntry.cpp \
 \
 ../jsoncpp/src/lib_json/json_value.cpp \
 ../jsoncpp/src/lib_json/json_reader.cpp \
-../jsoncpp/src/lib_json/json_writer.cpp
+../jsoncpp/src/lib_json/json_writer.cpp \
+\
+../kms-core/src/server/implementation/DotGraph.cpp \
+../kms-core/src/server/implementation/RegisterParent.cpp \
+../kms-core/src/server/implementation/objects/ServerManagerImpl.cpp \
+../kms-core/src/server/implementation/objects/PassThroughImpl.cpp \
+../kms-core/src/server/implementation/objects/HubImpl.cpp \
+../kms-core/src/server/implementation/objects/MediaPipelineImpl.cpp \
+../kms-core/src/server/implementation/objects/MediaPadImpl.cpp \
+../kms-core/src/server/implementation/objects/SessionEndpointImpl.cpp \
+../kms-core/src/server/implementation/objects/SdpEndpointImpl.cpp \
+../kms-core/src/server/implementation/objects/HubPortImpl.cpp \
+../kms-core/src/server/implementation/objects/MediaElementImpl.cpp \
+../kms-core/src/server/implementation/objects/FilterImpl.cpp \
+../kms-core/src/server/implementation/objects/UriEndpointImpl.cpp \
+../kms-core/src/server/implementation/objects/MediaObjectImpl.cpp \
+../kms-core/src/server/implementation/objects/BaseRtpEndpointImpl.cpp \
+../kms-core/src/server/implementation/objects/EndpointImpl.cpp \
+../kms-core/src/server/implementation/MediaSet.cpp \
+../kms-core/src/server/implementation/Factory.cpp \
+../kms-core/src/server/implementation/ModuleManager.cpp \
+../kms-core/src/server/implementation/WorkerPool.cpp \
+../kms-core/src/server/implementation/UUIDGenerator.cpp \
+../kms-core/src/server/implementation/EventHandler.cpp
 
 all:
 	mkdir -p $(TARGET_DIR)
