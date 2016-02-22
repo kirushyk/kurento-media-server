@@ -177,7 +177,7 @@ OBJS=$(CPP_SRC:.cpp=.o)
 
 all: $(OBJS)
 	mkdir -p $(TARGET_DIR)
-	$(LD) -o $(TARGET_DIR)/$(TARGET) $< $(LIBS)
+	$(LD) -o $(TARGET_DIR)/$(TARGET) $(OBJS) $(LIBS)
 
 .PHONY: clean
 clean:
