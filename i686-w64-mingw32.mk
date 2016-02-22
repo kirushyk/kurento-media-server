@@ -1,13 +1,12 @@
-CXX = i686-w64-mingw32-g++
-CC = i686-w64-mingw32-gcc
-LD = i686-w64-mingw32-ld
-TARGET_DIR = build
-TARGET = kurento.exe
+CXX=i686-w64-mingw32-g++
+CC=i686-w64-mingw32-gcc
+LD=i686-w64-mingw32-ld
+TARGET_DIR=./build/
+TARGET=kurento.exe
 
-CXXFLAGS = --std=gnu++17 -fpermissive
+CXXFLAGS=--std=gnu++17 -fpermissive
 
-CFLAGS = \
--DKURENTO_MODULES_DIR="\".\"" \
+CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 -DBOOST_LOG_USE_NATIVE_SYSLOG \
 -DWIN32_LEAN_AND_MEAN=1 \
 -Dushort="unsigned short" \
@@ -44,7 +43,7 @@ CFLAGS = \
 -I./win32/commons \
 -I./win32/commons/sdpagent
 
-LIBS = -L/usr/i686-w64-mingw32/sys-root/mingw/lib \
+LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lgstreamer-1.0 \
 -lgstsdp-1.0.dll \
 -lglibmm-2.4 \
@@ -57,8 +56,7 @@ LIBS = -L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lboost_program_options-mt \
 -lboost_filesystem-mt
 
-CPP_SRC = \
-./server/CacheEntry.cpp \
+CPP_SRC=./server/CacheEntry.cpp \
 ./server/transport/TransportFactory.cpp \
 ./server/transport/websocket/WebSocketTransport.cpp \
 ./server/transport/websocket/WebSocketRegistrar.cpp \
@@ -105,8 +103,7 @@ CPP_SRC = \
 ../kms-core/src/server/implementation/UUIDGenerator.cpp \
 ../kms-core/src/server/implementation/EventHandler.cpp
 
-C_SRC = \
-../kms-core/src/gst-plugins/kmsdummysink.c \
+C_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin3.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin.c \
 ../kms-core/src/gst-plugins/kmsdummyduplex.c \
@@ -169,7 +166,20 @@ C_SRC = \
 ../kms-core/src/gst-plugins/commons/kmsserializablemeta.c \
 ../kms-core/src/gst-plugins/commons/kmsbasertpendpoint.c
 
-all:
+OBJS=$(CPP_SRC:.cpp=.o)
+#OBJS += $(C_SRC:.c=.o)
+
+%.o : %.c
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+%.o : %.cpp
+	$(CXX) -c $(CFLAGS) $(CXXFLAGS) -o $@ $<
+
+all: $(OBJS)
 	mkdir -p $(TARGET_DIR)
-	$(CXX) -o $(TARGET_DIR)/$(TARGET) $(CFLAGS) $(CXXFLAGS) $(SRC) $(LIBS)
+	$(LD) -o $(TARGET_DIR)/$(TARGET) $< $(LIBS)
+
+.PHONY: clean
+clean:
+	rm $(OBJS)
 
