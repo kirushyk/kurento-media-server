@@ -44,6 +44,7 @@ CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 -I./win32/commons/sdpagent
 
 LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
+-lstdc++ \
 -lgstreamer-1.0 \
 -lgstsdp-1.0.dll \
 -lglibmm-2.4 \
