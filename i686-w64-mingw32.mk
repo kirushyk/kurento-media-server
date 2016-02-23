@@ -182,4 +182,5 @@ all: $(OBJS)
 .PHONY: clean
 clean:
 	rm $(OBJS)
+	rm $(TARGET_DIR)/$(TARGET)
 
