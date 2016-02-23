@@ -1,6 +1,5 @@
 CXX=i686-w64-mingw32-g++
 CC=i686-w64-mingw32-gcc
-LD=i686-w64-mingw32-ld
 TARGET_DIR=./build/
 TARGET=kurento.exe
 
@@ -46,20 +45,6 @@ CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -L/usr/lib/gcc/i686-w64-mingw32/5.2.0 \
 -L/usr/i686-w64-mingw32/lib/ \
-/usr/i686-w64-mingw32/sys-root/mingw/lib/../lib/crt2.o \
-/usr/lib/gcc/i686-w64-mingw32/5.2.0/crtbegin.o \
--lstdc++ \
--lpthread \
--ladvapi32 \
--lshell32 \
--luser32 \
--lkernel32 \
--lmingw32 \
--lgcc_s \
--lgcc \
--lmoldname \
--lmingwex \
--lmsvcrt \
 -lgstreamer-1.0 \
 -lgstsdp-1.0.dll \
 -lglibmm-2.4 \
@@ -70,8 +55,7 @@ LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lboost_system-mt \
 -lboost_log-mt \
 -lboost_program_options-mt \
--lboost_filesystem-mt \
-/usr/lib/gcc/i686-w64-mingw32/5.2.0/crtend.o
+-lboost_filesystem-mt
 
 CPP_SRC=./server/CacheEntry.cpp \
 ./server/transport/TransportFactory.cpp \
@@ -194,7 +178,7 @@ OBJS=$(CPP_SRC:.cpp=.o)
 
 all: $(OBJS)
 	mkdir -p $(TARGET_DIR)
-	$(LD) -o $(TARGET_DIR)/$(TARGET) $(OBJS) $(LIBS)
+	$(CXX) -o $(TARGET_DIR)/$(TARGET) $(OBJS) $(LIBS)
 
 .PHONY: clean
 clean:
