@@ -45,6 +45,17 @@ CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 
 LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lstdc++ \
+-lpthread \
+-ladvapi32 \
+-lshell32 \
+-luser32 \
+-lkernel32 \
+-lmingw32 \
+-lgcc_s \
+-lgcc \
+-lmoldname \
+-lmingwex \
+-lmsvcrt \
 -lgstreamer-1.0 \
 -lgstsdp-1.0.dll \
 -lglibmm-2.4 \
@@ -55,7 +66,8 @@ LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lboost_system-mt \
 -lboost_log-mt \
 -lboost_program_options-mt \
--lboost_filesystem-mt
+-lboost_filesystem-mt \
+/usr/lib/gcc/i686-w64-mingw32/5.2.0/crtend.o
 
 CPP_SRC=./server/CacheEntry.cpp \
 ./server/transport/TransportFactory.cpp \
