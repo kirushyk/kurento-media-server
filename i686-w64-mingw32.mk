@@ -55,6 +55,7 @@ LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lintl \
 -lsigc-2.0 \
 -lws2_32 \
+-lmswsock \
 -lssl.dll \
 -lcrypto.dll \
 /usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_system-mt.a \
