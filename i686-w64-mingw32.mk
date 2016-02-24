@@ -206,7 +206,9 @@ CPP_SRC=./server/CacheEntry.cpp \
 ./win32/interface/generated-cpp/BaseRtpEndpoint.cpp \
 ./win32/interface/generated-cpp/MediaSessionStarted.cpp
 
-C_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
+C_SRC=../kms-core/src/gst-plugins/commons/kmsutils.c
+
+YA_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin3.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin.c \
 ../kms-core/src/gst-plugins/kmsdummyduplex.c \
@@ -270,7 +272,7 @@ C_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
 ../kms-core/src/gst-plugins/commons/kmsbasertpendpoint.c
 
 OBJS=$(CPP_SRC:.cpp=.o)
-#OBJS += $(C_SRC:.c=.o)
+OBJS += $(C_SRC:.c=.o)
 
 %.o : %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
