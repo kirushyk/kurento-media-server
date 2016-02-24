@@ -56,6 +56,7 @@ LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lsigc-2.0 \
 -lws2_32 \
 -lssl.dll \
+-lcrypto.dll \
 /usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_system-mt.a \
 /usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log-mt.a \
 /usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log_setup-mt.a \
