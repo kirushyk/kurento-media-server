@@ -40,7 +40,9 @@ CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 -I./win32/jsonrpc \
 -I./win32/webrtcendpoint \
 -I./win32/commons \
--I./win32/commons/sdpagent
+-I./win32/commons/sdpagent \
+-I./win32/interface/generated-cpp \
+-I./win32/implementation/generated-cpp
 
 LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -L/usr/lib/gcc/i686-w64-mingw32/5.2.0 \
