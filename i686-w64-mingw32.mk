@@ -7,7 +7,6 @@ CXXFLAGS=--std=gnu++17 -fpermissive
 
 CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 -DBOOST_LOG_USE_NATIVE_SYSLOG \
--DBOOST_LOG_DYN_LINK \
 -DWIN32_LEAN_AND_MEAN=1 \
 -Dushort="unsigned short" \
 -Duint="unsigned" \
@@ -55,11 +54,12 @@ LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lglib-2.0 \
 -lintl \
 -lsigc-2.0 \
--lboost_system-mt \
--lboost_log-mt \
--lboost_log \
--lboost_program_options-mt \
--lboost_filesystem-mt
+/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_system-mt.a \
+/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log-mt.a \
+/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log_setup-mt.a \
+/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_program_options-mt.a \
+/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_filesystem-mt.a \
+/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_thread-mt.a
 
 CPP_SRC=./server/CacheEntry.cpp \
 ./server/transport/TransportFactory.cpp \
@@ -266,7 +266,7 @@ C_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
 ../kms-core/src/gst-plugins/commons/kmsbasertpendpoint.c
 
 OBJS=$(CPP_SRC:.cpp=.o)
-OBJS += $(C_SRC:.c=.o)
+#OBJS += $(C_SRC:.c=.o)
 
 %.o : %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
