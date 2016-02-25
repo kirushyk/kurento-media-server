@@ -58,6 +58,8 @@ LIBS=-L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -lmswsock \
 -lssl.dll \
 -lcrypto.dll \
+-lrpcrt4 \
+-lole32 \
 /usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_system-mt.a \
 /usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log-mt.a \
 /usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log_setup-mt.a \
