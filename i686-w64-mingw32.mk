@@ -8,6 +8,8 @@ CXXFLAGS=--std=gnu++17 -fpermissive
 CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 -DBOOST_LOG_USE_NATIVE_SYSLOG \
 -DWIN32_LEAN_AND_MEAN=1 \
+-DPACKAGE="\"kurento\"" \
+-DVERSION="\"6.4.0\"" \
 -Dushort="unsigned short" \
 -Duint="unsigned" \
 -mms-bitfields \
@@ -27,8 +29,11 @@ CFLAGS=-DKURENTO_MODULES_DIR="\".\"" \
 -I../kms-core/src/server/interface/ \
 -I../kms-core/src/server/implementation/ \
 -I../kms-core/src/server/implementation/objects/ \
+-I../kms-core/src/gst-plugins/ \
+-I../kms-core/src/gst-plugins/vp8parse/ \
 -I../kurento-media-server/server/transport/ \
 -I../libevent/include/ \
+-I../libvpx/ \
 -I./win32/ \
 -I./server/ \
 -I./server/transport/websocket/ \
@@ -208,9 +213,7 @@ CPP_SRC=./server/CacheEntry.cpp \
 ./win32/interface/generated-cpp/BaseRtpEndpoint.cpp \
 ./win32/interface/generated-cpp/MediaSessionStarted.cpp
 
-C_SRC=../kms-core/src/gst-plugins/commons/kmsutils.c
-
-YA_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
+C_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin3.c \
 ../kms-core/src/gst-plugins/kmsagnosticbin.c \
 ../kms-core/src/gst-plugins/kmsdummyduplex.c \
