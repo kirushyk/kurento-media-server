@@ -213,12 +213,15 @@ CPP_SRC=./server/CacheEntry.cpp \
 ./win32/interface/generated-cpp/BaseRtpEndpoint.cpp \
 ./win32/interface/generated-cpp/MediaSessionStarted.cpp
 
-C_SRC=../kms-core/src/gst-plugins/kmsdummysink.c \
-../kms-core/src/gst-plugins/kmsagnosticbin3.c \
-../kms-core/src/gst-plugins/kmsagnosticbin.c \
-../kms-core/src/gst-plugins/kmsdummyduplex.c \
-../kms-core/src/gst-plugins/vp8parse/vp8parse.c \
-../kms-core/src/gst-plugins/vp8parse/kmsvp8parse.c \
+C_SRC=\
+#../kms-core/src/gst-plugins/kmsdummysink.c \
+#../kms-core/src/gst-plugins/kmsagnosticbin3.c \
+#../kms-core/src/gst-plugins/kmsagnosticbin.c \
+#../kms-core/src/gst-plugins/kmsdummyduplex.c \
+#../kms-core/src/gst-plugins/vp8parse/vp8parse.c \
+#../kms-core/src/gst-plugins/vp8parse/kmsvp8parse.c \
+
+C_GOOD_SRC=\
 ../kms-core/src/gst-plugins/kmsfilterelement.c \
 ../kms-core/src/gst-plugins/kmsdummyuri.c \
 ../kms-core/src/gst-plugins/kmsdummysrc.c \
