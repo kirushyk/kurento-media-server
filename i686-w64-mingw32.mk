@@ -186,7 +186,7 @@ CPP_SRC= \
 
 OBJS=$(CPP_SRC:.cpp=.o)
 
-%.o: %cpp
+%.o: %.cpp
 	$(CXX) -c $(CFLAGS) $(CXXFLAGS) -o $@ $<
 
 all: $(OBJS)
