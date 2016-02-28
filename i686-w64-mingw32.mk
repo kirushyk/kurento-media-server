@@ -86,15 +86,6 @@ CPP_SRC= \
 ./server/ServerMethods.cpp \
 ./server/modules.cpp \
 \
-../kms-jsonrpc/src/JsonFixes.cpp \
-../kms-jsonrpc/src/JsonRpcHandler.cpp \
-../kms-jsonrpc/src/JsonRpcClient.cpp \
-../kms-jsonrpc/src/JsonRpcUtils.cpp \
-\
-../jsoncpp/src/lib_json/json_value.cpp \
-../jsoncpp/src/lib_json/json_reader.cpp \
-../jsoncpp/src/lib_json/json_writer.cpp \
-\
 ./win32/implementation/generated-cpp/SessionEndpointImplInternal.cpp \
 ./win32/implementation/generated-cpp/MediaElementImplInternal.cpp \
 ./win32/implementation/generated-cpp/MediaPipelineImplInternal.cpp \
