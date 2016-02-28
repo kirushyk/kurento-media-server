@@ -49,6 +49,10 @@ LIBS= \
 -L/usr/i686-w64-mingw32/sys-root/mingw/lib \
 -L/usr/lib/gcc/i686-w64-mingw32/5.2.0 \
 -L/usr/i686-w64-mingw32/lib/ \
+-L../kms-jsonrpc/build/ \
+-L../jsoncpp/build/ \
+-lkmsjsoncpp.dll \
+-lkmsjsonrpc.dll \
 -lgstreamer-1.0 \
 -lgstsdp-1.0.dll \
 -lglibmm-2.4 \
