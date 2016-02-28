@@ -1,3 +1,4 @@
+Makefile
 *.o
 *.kdev4
 build
