@@ -51,8 +51,12 @@ LIBS= \
 -L/usr/i686-w64-mingw32/lib/ \
 -L../kms-jsonrpc/build/ \
 -L../jsoncpp/build/ \
+-L../kms-core/build/ \
 -lkmsjsoncpp.dll \
 -lkmsjsonrpc.dll \
+-lkmscoreimpl.dll \
+-lkmsgstcommons.dll \
+-lkmssdpagent.dll \
 -lgstreamer-1.0 \
 -lgstsdp-1.0.dll \
 -lglibmm-2.4 \
