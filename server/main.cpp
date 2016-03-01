@@ -46,7 +46,7 @@
 GST_DEBUG_CATEGORY_STATIC (GST_CAT_DEFAULT);
 #define GST_DEFAULT_NAME "KurentoMediaServer"
 
-const std::string DEFAULT_CONFIG_FILE = "/etc/kurento/kurento.conf.json";
+const std::string DEFAULT_CONFIG_FILE = "kurento.conf.json";
 const std::string ENV_PREFIX = "KURENTO_";
 const int DEFAULT_LOG_FILE_SIZE = 100;
 const int DEFAULT_NUMBER_LOG_FILE = 10;
