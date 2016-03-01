@@ -69,7 +69,13 @@ LIBS= \
 -lssl.dll \
 -lcrypto.dll \
 -lrpcrt4 \
--lole32
+-lole32 \
+-lboost_system-mt \
+-lboost_log-mt \
+-lboost_log_setup-mt \
+-lboost_program_options-mt \
+-lboost_filesystem-mt \
+-lboost_thread-mt
 
 CPP_SRC= \
 ./server/CacheEntry.cpp \
