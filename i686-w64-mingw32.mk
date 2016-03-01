@@ -69,13 +69,7 @@ LIBS= \
 -lssl.dll \
 -lcrypto.dll \
 -lrpcrt4 \
--lole32 \
-/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_system-mt.a \
-/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log-mt.a \
-/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_log_setup-mt.a \
-/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_program_options-mt.a \
-/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_filesystem-mt.a \
-/usr/i686-w64-mingw32/sys-root/mingw/lib/libboost_thread-mt.a
+-lole32
 
 CPP_SRC= \
 ./server/CacheEntry.cpp \
