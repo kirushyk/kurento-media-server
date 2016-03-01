@@ -7,6 +7,7 @@ CXXFLAGS=--std=gnu++17 -fpermissive
 
 CFLAGS= \
 -DKURENTO_MODULES_DIR="\".\"" \
+-DBOOST_LOG_DYN_LINK=1 \
 -DBOOST_LOG_USE_NATIVE_SYSLOG \
 -DWIN32_LEAN_AND_MEAN=1 \
 -DPACKAGE="\"kurento\"" \
@@ -77,7 +78,7 @@ LIBS= \
 -lboost_filesystem-mt \
 -lboost_thread-mt
 
-CPP_SRC= \
+SRC= \
 ./server/CacheEntry.cpp \
 ./server/transport/TransportFactory.cpp \
 ./server/transport/websocket/WebSocketTransport.cpp \
@@ -94,7 +95,7 @@ CPP_SRC= \
 ./server/ServerMethods.cpp \
 ./server/modules.cpp
 
-OBJS=$(CPP_SRC:.cpp=.o)
+OBJS=$(SRC:.cpp=.o)
 
 %.o: %.cpp
 	$(CXX) -c $(CFLAGS) $(CXXFLAGS) -o $@ $<
