@@ -1,5 +1,6 @@
 CXX=i686-w64-mingw32-g++
 CC=i686-w64-mingw32-gcc
+WINDRES=i686-w64-mingw32-windres
 TARGET_DIR=./build/
 TARGET=kurento-media-server.exe
 
@@ -102,10 +103,10 @@ OBJS=$(SRC:.cpp=.o)
 
 all: $(OBJS)
 	mkdir -p $(TARGET_DIR)
-	$(CXX) -o $(TARGET_DIR)/$(TARGET) $(OBJS) $(LIBS)
+	$(WINDRES) ./win32/kurento.rc $(TARGET_DIR)/kurento.o	
+	$(CXX) -o $(TARGET_DIR)/$(TARGET) $(OBJS) $(LIBS) $(TARGET_DIR)/kurento.o
 
 .PHONY: clean
 clean:
 	rm $(OBJS)
 	rm $(TARGET_DIR)/$(TARGET)
-
