@@ -11,8 +11,8 @@ CFLAGS= \
 -DBOOST_LOG_DYN_LINK=1 \
 -DBOOST_LOG_USE_NATIVE_SYSLOG \
 -DWIN32_LEAN_AND_MEAN=1 \
--DPACKAGE="\"kurento\"" \
--DVERSION="\"6.4.0\"" \
+-DPACKAGE="\"kurento-media-server\"" \
+-DVERSION="\"6.4.0.3\"" \
 -Dushort="unsigned short" \
 -Duint="unsigned" \
 -mms-bitfields \
