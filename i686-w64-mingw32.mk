@@ -7,12 +7,12 @@ TARGET=kurento-media-server.exe
 CXXFLAGS=--std=gnu++17 -fpermissive
 
 CFLAGS= \
--DKURENTO_MODULES_DIR="\".\"" \
 -DBOOST_LOG_DYN_LINK=1 \
 -DBOOST_LOG_USE_NATIVE_SYSLOG \
 -DWIN32_LEAN_AND_MEAN=1 \
 -DPACKAGE="\"kurento-media-server\"" \
--DVERSION="\"6.4.0.3\"" \
+-DVERSION="\"6.4.1.6\"" \
+-DPROJECT_VERSION="\"6.4.1.6\"" \
 -Dushort="unsigned short" \
 -Duint="unsigned" \
 -mms-bitfields \
