@@ -106,7 +106,7 @@ all: $(TARGET_DIR)/$(TARGET)
 $(TARGET_DIR)/$(TARGET): $(OBJS) ./win32/kurento.rc
 	mkdir -p $(TARGET_DIR)
 	$(WINDRES) ./win32/kurento.rc $(TARGET_DIR)/kurento.o	
-	$(CXX) -o $@ $^ $(LIBS) $(TARGET_DIR)/kurento.o
+	$(CXX) -o $@ $(OBJS) $(LIBS) $(TARGET_DIR)/kurento.o
 
 .PHONY: clean
 clean:
