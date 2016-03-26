@@ -24,6 +24,9 @@
 
 #ifdef __linux__
 #include <sys/resource.h>
+#elif defined(_WIN32)
+#include <windows.h>
+#include <tlhelp32.h>
 #endif
 
 #define GST_CAT_DEFAULT kurento_resource_manager
@@ -51,6 +54,7 @@ tokenize (std::string str, char sep, std::vector<std::string> &tokens)
 static int
 getNumberOfThreads ()
 {
+#ifdef __linux__
   std::string stat;
   std::ifstream stat_file ("/proc/self/stat");
   std::vector <std::string> tokens;
@@ -61,6 +65,20 @@ getNumberOfThreads ()
   stat_file.close();
 
   return atoi (tokens[19].c_str() );
+#elif defined (_WIN32)
+  DWORD const id = GetCurrentProcessId ();
+  HANDLE const snapshot = CreateToolhelp32Snapshot (TH32CS_SNAPALL, 0);
+  PROCESSENTRY32 entry = { 0 };
+  entry.dwSize = sizeof (entry);
+  BOOL ret = true;
+  ret = Process32First (snapshot, &entry);
+  while (ret && entry.th32ProcessID != id)
+  {
+    ret = Process32Next (snapshot, &entry);
+  }
+  CloseHandle (snapshot);
+  return ret ? entry.cntThreads : 0;
+#endif
 }
 
 static int
@@ -72,8 +90,8 @@ getMaxThreads ()
     getrlimit (RLIMIT_NPROC, &limits);
 
     maxThreads = limits.rlim_cur;
-#else
-    maxThreads = 2;
+#elif defined(_WIN32)
+    maxThreads = 64;
 #endif
   }
 
