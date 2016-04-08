@@ -78,6 +78,8 @@ getNumberOfThreads ()
   }
   CloseHandle (snapshot);
   return ret ? entry.cntThreads : 0;
+#else
+#error Not implemented on this platform
 #endif
 }
 
@@ -92,6 +94,8 @@ getMaxThreads ()
     maxThreads = limits.rlim_cur;
 #elif defined(_WIN32)
     maxThreads = 64;
+#else
+#error Not implemented on this platform
 #endif
   }
 
