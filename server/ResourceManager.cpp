@@ -154,6 +154,22 @@ checkOpenFiles (float limit_percent)
 }
 #endif
 
+#ifdef _WIN32
+static void
+checkMemory (float limit_percent)
+{
+  MEMORYSTATUSEX statex;
+
+  statex.dwLength = sizeof (statex);
+
+  GlobalMemoryStatusEx (&statex);
+
+  if (statex.dwMemoryLoad > 100 * limit_percent) {
+    throw KurentoException (NOT_ENOUGH_RESOURCES, "Insufficient memory");
+  }
+}
+#endif
+
 void
 checkResources (float limit_percent)
 {
@@ -161,7 +177,7 @@ checkResources (float limit_percent)
   checkThreads (limit_percent);
   checkOpenFiles (limit_percent);
 #elif defined(_WIN32)
-  // checkMemory (limit_percent);
+  checkMemory (limit_percent);
 #endif
 }
 
