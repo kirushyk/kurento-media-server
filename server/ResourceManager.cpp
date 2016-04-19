@@ -83,20 +83,15 @@ getNumberOfThreads ()
 #endif
 }
 
+#ifdef __linux__
 static int
 getMaxThreads ()
 {
   if (maxThreads == 0) {
-#ifdef __linux__
     struct rlimit limits;
     getrlimit (RLIMIT_NPROC, &limits);
 
     maxThreads = limits.rlim_cur;
-#elif defined(_WIN32)
-    maxThreads = 64;
-#else
-#error Not implemented on this platform
-#endif
   }
 
   return maxThreads;
@@ -118,14 +113,10 @@ static int
 getMaxOpenFiles ()
 {
   if (maxOpenFiles == 0) {
-#ifdef __linux__
     struct rlimit limits;
     getrlimit (RLIMIT_NOFILE, &limits);
 
     maxOpenFiles = limits.rlim_cur;
-#else
-    maxOpenFiles = 64;
-#endif
   }
 
   return maxOpenFiles;
@@ -135,7 +126,7 @@ static int
 getNumberOfOpenFiles ()
 {
   int openFiles = 0;
-#ifdef __linux__
+
   DIR *d;
   struct dirent *dir;
 
@@ -146,7 +137,6 @@ getNumberOfOpenFiles ()
   }
 
   closedir (d);
-#endif
 
   return openFiles;
 }
@@ -162,12 +152,17 @@ checkOpenFiles (float limit_percent)
     throw KurentoException (NOT_ENOUGH_RESOURCES, "Too many open files");
   }
 }
+#endif
 
 void
 checkResources (float limit_percent)
 {
+#ifdef __linux__
   checkThreads (limit_percent);
   checkOpenFiles (limit_percent);
+#elif defined(_WIN32)
+  // checkMemory (limit_percent);
+#endif
 }
 
 void killServerOnLowResources (float limit_percent)
