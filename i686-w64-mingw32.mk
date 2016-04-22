@@ -1,8 +1,13 @@
-CXX=i686-w64-mingw32-g++ -g -o0
+CXX=i686-w64-mingw32-g++
 CC=i686-w64-mingw32-gcc
 WINDRES=i686-w64-mingw32-windres
 TARGET_DIR=./build/
 TARGET=kurento-media-server.exe
+
+ifdef DEBUG
+CXX += -g -o0
+TARGET_DIR = ./build/debug/
+endif
 
 CXXFLAGS=--std=gnu++17 -fpermissive
 
