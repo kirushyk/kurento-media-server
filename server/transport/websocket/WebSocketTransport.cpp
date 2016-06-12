@@ -82,7 +82,7 @@ WebSocketTransport::WebSocketTransport (const boost::property_tree::ptree
                                   WEBSOCKET_PATH_DEFAULT);
 
   try {
-    n_threads = config.get<uint> ("mediaServer.net.websocket.threads");
+    n_threads = config.get<unsigned> ("mediaServer.net.websocket.threads");
 
     if (n_threads < 1) {
       throw boost::property_tree::ptree_bad_data ("Invalid threads number",
