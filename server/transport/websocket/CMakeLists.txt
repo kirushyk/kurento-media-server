@@ -20,7 +20,7 @@ set_source_files_properties(${WEBSOCKET_SOURCES}
     COMPILE_FLAGS ${FLAGS}
 )
 
-add_library (websocketTransport
+add_library (websocketTransport STATIC
   ${WEBSOCKET_SOURCES}
 )
 
