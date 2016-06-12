@@ -36,6 +36,7 @@ GST_DEBUG_CATEGORY_STATIC (GST_CAT_DEFAULT);
 namespace kurento
 {
 
+#ifndef _WIN32
 static int maxOpenFiles = 0;
 static int maxThreads = 0;
 
@@ -64,7 +65,7 @@ getNumberOfThreads ()
 
   stat_file.close();
 
-  return atoi (tokens[19].c_str() );
+  return atoi (tokens[19].c_str () );
 #elif defined (_WIN32)
   DWORD const id = GetCurrentProcessId ();
   HANDLE const snapshot = CreateToolhelp32Snapshot (TH32CS_SNAPALL, 0);
@@ -72,16 +73,18 @@ getNumberOfThreads ()
   entry.dwSize = sizeof (entry);
   BOOL ret = true;
   ret = Process32First (snapshot, &entry);
-  while (ret && entry.th32ProcessID != id)
-  {
+
+  while (ret && entry.th32ProcessID != id) {
     ret = Process32Next (snapshot, &entry);
   }
+
   CloseHandle (snapshot);
   return ret ? entry.cntThreads : 0;
 #else
 #error Not implemented on this platform
 #endif
 }
+#endif
 
 #ifdef __linux__
 static int
