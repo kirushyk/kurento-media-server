@@ -1,15 +1,17 @@
 /*
  * (C) Copyright 2013 Kurento (http://kurento.org/)
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  */
 
@@ -284,6 +286,26 @@ ClientHandler::check_create_pipeline_call()
   BOOST_CHECK (response.isMember ("result") );
   BOOST_CHECK (response["result"].isMember ("type") );
   BOOST_CHECK (response["result"]["type"].asString () == "WebRtcEndpoint" );
+  BOOST_CHECK (response["result"].isMember ("qualifiedType") );
+  BOOST_CHECK (response["result"]["qualifiedType"].asString () ==
+               "kurento.WebRtcEndpoint" );
+  BOOST_CHECK (response["result"].isMember ("hierarchy") );
+  Json::Value hierarchy = response["result"]["hierarchy"];
+  std::vector <std::string> expected_hierarchy;
+
+  expected_hierarchy.push_back ("kurento.BaseRtpEndpoint");
+  expected_hierarchy.push_back ("kurento.SdpEndpoint");
+  expected_hierarchy.push_back ("kurento.SessionEndpoint");
+  expected_hierarchy.push_back ("kurento.Endpoint");
+  expected_hierarchy.push_back ("kurento.MediaElement");
+  expected_hierarchy.push_back ("kurento.MediaObject");
+
+  BOOST_REQUIRE (hierarchy.isArray() );
+
+  for (uint i = 0; i < hierarchy.size(); i++) {
+    BOOST_REQUIRE (hierarchy[i].isString() );
+    BOOST_CHECK (hierarchy[i].asString() == expected_hierarchy[i]);
+  }
 
   std::string sessionId = "123456";
   request.removeMember ("id");

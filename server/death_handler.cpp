@@ -322,8 +322,6 @@ INLINE static void safe_abort()
   abort();
 }
 
-#ifdef __linux__
-
 /// @brief Invokes addr2line utility to determine the function name
 /// and the line information from an address in the code segment.
 static char *addr2line (const char *image, void *addr, bool color_output,
@@ -501,7 +499,9 @@ void *DeathHandler::MallocHook (size_t size,
 
 void DeathHandler::SignalHandler (int sig, void * /* info */, void *secret)
 {
+
 #ifdef __linux__
+
   // Stop all other running threads by forking
   pid_t forkedPid = fork();
 
@@ -806,6 +806,7 @@ void DeathHandler::SignalHandler (int sig, void * /* info */, void *secret)
     // Resume the parent process
     kill (getppid(), SIGCONT);
   }
+
 #endif
 
   // This is called in the child process

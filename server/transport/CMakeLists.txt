@@ -11,6 +11,7 @@ add_dependencies(transport websocketTransport)
 
 target_link_libraries(transport
   ${GSTREAMER_LIBRARIES}
+  ${KMSCORE_LIBRARIES}
   websocketTransport
 )
 

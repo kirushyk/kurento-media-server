@@ -1,15 +1,17 @@
 /*
  * (C) Copyright 2014 Kurento (http://kurento.org/)
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  */
 
@@ -19,6 +21,7 @@
 #include <string>
 #include <EventHandler.hpp>
 #include <KurentoException.hpp>
+#include <jsonrpc/JsonRpcException.hpp>
 #include <jsonrpc/JsonRpcUtils.hpp>
 #include <jsonrpc/JsonRpcConstants.hpp>
 #include <jsonrpc/JsonFixes.hpp>
@@ -47,6 +50,8 @@ GST_DEBUG_CATEGORY_STATIC (GST_CAT_DEFAULT);
 #define OBJECT "object"
 #define SUBSCRIPTION "subscription"
 #define TYPE "type"
+#define QUALIFIED_TYPE "qualifiedType"
+#define HIERARCHY "hierarchy"
 
 #define REQUEST_TIMEOUT 20000 /* 20 seconds */
 
@@ -66,11 +71,15 @@ ServerMethods::ServerMethods (const boost::property_tree::ptree &config) :
   std::shared_ptr <ServerInfo> serverInfo;
   std::shared_ptr<MediaObjectImpl> serverManager;
   std::chrono::seconds collectorInterval;
+  bool disableRequestCache;
 
   collectorInterval = std::chrono::seconds (
                         config.get<int> ("mediaServer.resources.garbageCollectorPeriod",
                                          MediaSet::getCollectorInterval().count() ) );
   MediaSet::setCollectorInterval (collectorInterval);
+
+  disableRequestCache = config.get<bool> ("mediaServer.disableRequestCache",
+                                          false);
 
   resourceLimitPercent =
     config.get<float> ("mediaServer.resources.exceptionLimit",
@@ -105,12 +114,16 @@ ServerMethods::ServerMethods (const boost::property_tree::ptree &config) :
 
   cache = std::shared_ptr<RequestCache> (new RequestCache (REQUEST_TIMEOUT) );
 
-  handler.setPreProcess (std::bind (&ServerMethods::preProcess, this,
-                                    std::placeholders::_1,
-                                    std::placeholders::_2) );
-  handler.setPostProcess (std::bind (&ServerMethods::postProcess, this,
-                                     std::placeholders::_1,
-                                     std::placeholders::_2) );
+  if (!disableRequestCache) {
+    handler.setPreProcess (std::bind (&ServerMethods::preProcess, this,
+                                      std::placeholders::_1,
+                                      std::placeholders::_2) );
+    handler.setPostProcess (std::bind (&ServerMethods::postProcess, this,
+                                       std::placeholders::_1,
+                                       std::placeholders::_2) );
+  } else {
+    GST_DEBUG ("Disabling cache");
+  }
 
   handler.addMethod ("connect", std::bind (&ServerMethods::connect, this,
                      std::placeholders::_1,
@@ -180,10 +193,83 @@ getOrCreateSessionId (std::string &_sessionId, const Json::Value &params)
   }
 }
 
-void
-ServerMethods::process (const std::string &request, std::string &response)
+static std::string
+getSessionId (const Json::Value &resp)
 {
+  std::string sessionId;
+
+  Json::Value result;
+
+  if (resp.isMember (JSON_RPC_ERROR) ) {
+    /* If response is an error do not return a sessionId */
+    return sessionId;
+  }
+
+  JsonRpc::getValue (resp, JSON_RPC_RESULT, result);
+  JsonRpc::getValue (result, SESSION_ID, sessionId);
+
+  return sessionId;
+}
+
+
+static void
+injectSessionId (Json::Value &req, const std::string &sessionId)
+{
+  try {
+    Json::Value params;
+
+    params = req[JSON_RPC_PARAMS];
+
+    try {
+      std::string oldSessionId;
+
+      JsonRpc::getValue (params, SESSION_ID, oldSessionId);
+    } catch (JsonRpc::CallException &e) {
+      // There is no sessionId, inject it
+      GST_TRACE ("Injecting sessionId %s", sessionId.c_str() );
+      params[SESSION_ID] = sessionId;
+      req[JSON_RPC_PARAMS] = params;
+    }
+  } catch (JsonRpc::CallException &ex) {
+
+  }
+}
+
+std::string
+ServerMethods::process (const std::string &requestStr, std::string &responseStr,
+                        std::string &sessionId)
+{
+  Json::Value response;
+  Json::Value request;
+  bool parse = false;
+  Json::Reader reader;
+  Json::FastWriter writer;
+  std::string newSessionId;
+
+  parse = reader.parse (requestStr, request);
+
+  if (!parse) {
+    throw JsonRpc::CallException (JsonRpc::ErrorCode::PARSE_ERROR, "Parse error.");
+  }
+
+  if (!sessionId.empty() ) {
+    injectSessionId (request, sessionId);
+  }
+
   handler.process (request, response);
+
+  try {
+    newSessionId = getSessionId (response);
+  } catch (JsonRpc::CallException &ex) {
+    /* We could not get some of the required parameters. Ignore */
+    newSessionId = sessionId;
+  }
+
+  if (response != Json::Value::null) {
+    responseStr = writer.write (response);
+  }
+
+  return newSessionId;
 }
 
 void
@@ -195,24 +281,19 @@ ServerMethods::keepAliveSession (const std::string &sessionId)
 bool
 ServerMethods::preProcess (const Json::Value &request, Json::Value &response)
 {
-  std::string sessionId;
-  std::string resp;
+  std::string sessionId;//   std::string resp;
   std::string requestId;
 
   try {
-    Json::Reader reader;
     Json::Value params;
 
     JsonRpc::getValue (request, JSON_RPC_ID, requestId);
     JsonRpc::getValue (request, JSON_RPC_PARAMS, params);
     JsonRpc::getValue (params, SESSION_ID, sessionId);
 
-    resp = cache->getCachedResponse (sessionId, requestId);
+    response = cache->getCachedResponse (sessionId, requestId);
 
-    GST_DEBUG ("Cached response: %s", resp.c_str() );
-
-    /* update response with the one we got from cache */
-    reader.parse (resp, response);
+    GST_DEBUG ("Cached response");
 
     return false;
   } catch (...) {
@@ -226,7 +307,6 @@ ServerMethods::postProcess (const Json::Value &request, Json::Value &response)
 {
   Json::FastWriter writer;
   std::string sessionId;
-  std::string resp;
   std::string requestId;
 
   try {
@@ -251,11 +331,8 @@ ServerMethods::postProcess (const Json::Value &request, Json::Value &response)
   } catch (JsonRpc::CallException &e) {
     /* We could not get some of the required parameters. Ignore */
   } catch (CacheException &e) {
-    /* Cache response */
-    resp = writer.write (response);
-
-    GST_LOG ("Caching: %s", resp.c_str() );
-    cache->addResponse (sessionId, requestId, resp);
+    GST_LOG ("Caching: %s", response.toStyledString().c_str() );
+    cache->addResponse (sessionId, requestId, response);
   }
 }
 
@@ -285,6 +362,11 @@ ServerMethods::describe (const Json::Value &params, Json::Value &response)
 
   response[SESSION_ID] = sessionId;
   response[TYPE] = obj->getType ();
+  response[QUALIFIED_TYPE] = obj->getQualifiedType();
+  JsonSerializer serializer (true);
+  std::vector <std::string> array = obj->getHierarchy();
+  serializer.Serialize ("array", array);
+  response[HIERARCHY]  = serializer.JsonValue["array"];
 }
 
 void
@@ -651,7 +733,7 @@ ServerMethods::transaction (const Json::Value &params, Json::Value &response)
   JsonRpc::getArray (params, "operations", operations);
   Json::Value responses;
 
-  for (Json::ArrayIndex i = 0; i < operations.size(); i++) {
+  for (uint i = 0; i < operations.size(); i++) {
     bool ret;
 
     Json::Value &reqParams = operations[i][JSON_RPC_PARAMS];

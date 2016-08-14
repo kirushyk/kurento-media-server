@@ -1,15 +1,17 @@
 /*
  * (C) Copyright 2015 Kurento (http://kurento.org/)
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  */
 
@@ -40,16 +42,24 @@ namespace kurento
 static int maxOpenFiles = 0;
 static int maxThreads = 0;
 
-static void
-tokenize (std::string str, char sep, std::vector<std::string> &tokens)
+static int
+get_int (std::string &str, char sep, int nToken)
 {
   size_t start = str.find_first_not_of (sep), end;
+  int count = 0;
 
   while (start != std::string::npos) {
     end = str.find (sep, start);
-    tokens.push_back (str.substr (start, end - start) );
+
+    if (count++ == nToken) {
+      str[end] = '\0';
+      return atoi (&str.c_str() [start]);
+    }
+
     start = str.find_first_not_of (sep, end);
   }
+
+  return 0;
 }
 
 static int
@@ -104,10 +114,15 @@ static void
 checkThreads (float limit_percent)
 {
   int nThreads;
+  int maxThreads = getMaxThreads ();
+
+  if (maxThreads <= 0) {
+    return;
+  }
 
   nThreads = getNumberOfThreads ();
 
-  if (nThreads > getMaxThreads () * limit_percent ) {
+  if (nThreads > maxThreads * limit_percent ) {
     throw KurentoException (NOT_ENOUGH_RESOURCES, "Too many threads");
   }
 }
@@ -129,7 +144,6 @@ static int
 getNumberOfOpenFiles ()
 {
   int openFiles = 0;
-
   DIR *d;
   struct dirent *dir;
 
